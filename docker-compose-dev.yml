@@ -12,6 +12,7 @@ services:
     volumes:
       - ${VALIS_SOCKET_DIR:-/tmp/valis}:/tmp/valis # (host_socket_dir:container_socket_dir)
       - ${SAS_BASE_DIR}:/root/sas
+      - ./valis/valis:/tmp
     networks:
       - valisnet
 
@@ -23,6 +24,9 @@ services:
     container_name: zora
     ports:
       - 3000:3000
+    volumes:
+      - ./zora/zora:/app
+      - zora_node_modules:/app/node_modules
     networks:
       - valisnet
     depends_on:
@@ -31,4 +35,6 @@ services:
 networks:
   valisnet:
 
+volumes:
+  zora_node_modules:
 
