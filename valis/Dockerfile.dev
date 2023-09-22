@@ -1,0 +1,38 @@
+# Stage 1: Development stage for Python dependencies
+FROM python:3.10-slim as dep-stage
+
+# Set up app dir
+WORKDIR /tmp
+
+# Copy project files over
+COPY ./valis/pyproject.toml ./valis/poetry.lock ./
+
+# Install Poetry
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
+
+# Install the project dependencies
+RUN poetry install --no-root
+
+# Stage 2: Development stage for the project
+FROM dep-stage as dev-stage
+
+# Copy the main project files over and install
+COPY ./valis ./
+RUN poetry install --only main
+
+# setting environment variables
+ENV MODULE_NAME="valis.wsgi"
+ENV VALIS_SOCKET_DIR='/tmp/valis'
+ENV VALIS_LOGS_DIR='/tmp'
+ENV VALIS_ALLOW_ORIGIN="http://localhost:3000"
+
+# Stage 3: Build stage (inherits from dev-stage)
+FROM dev-stage as build-stage
+
+# Expose port 8000
+EXPOSE 8000
+
+# Start the FastAPI app with hot-reloading for development
+CMD ["uvicorn", "valis.wsgi:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+

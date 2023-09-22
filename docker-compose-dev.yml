@@ -1,0 +1,34 @@
+version: '3.9'
+services:
+
+  valis:
+    build:
+      context: valis
+      dockerfile: Dockerfile.dev
+    #image: valis-dev:latest
+    container_name: valis
+    ports:
+      - 8000:8000
+    volumes:
+      - ${VALIS_SOCKET_DIR:-/tmp/valis}:/tmp/valis # (host_socket_dir:container_socket_dir)
+      - ${SAS_BASE_DIR}:/root/sas
+    networks:
+      - valisnet
+
+  zora:
+    build:
+      context: zora
+      dockerfile: Dockerfile.dev
+    #image: zora-dev:latest
+    container_name: zora
+    ports:
+      - 3000:3000
+    networks:
+      - valisnet
+    depends_on:
+      - valis
+
+networks:
+  valisnet:
+
+

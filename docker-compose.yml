@@ -1,0 +1,50 @@
+version: '3.9'
+services:
+  nginx:
+    #image: nginx-valis:latest
+    container_name: nginx-valis
+    build:
+      context: nginx
+    volumes:
+      - ${VALIS_SOCKET_DIR:-/tmp/valis}:/tmp/valis # (host_socket_dir:upstream_socket_location)
+      - zora-static:/usr/share/nginx/html
+    ports:
+      - 8080:80
+    networks:
+      - valisnet
+    depends_on:
+      - valis
+      - zora
+
+  valis:
+    build:
+      context: valis
+    #image: valis:latest
+    container_name: valis
+    ports:
+      - 8000:8000
+    volumes:
+      - ${VALIS_SOCKET_DIR:-/tmp/valis}:/tmp/valis # (host_socket_dir:container_socket_dir)
+      - ${SAS_BASE_DIR}:/root/sas
+    networks:
+      - valisnet
+
+  zora:
+    build:
+      context: zora
+    #image: zora:latest
+    container_name: zora
+    volumes:
+      - zora-static:/app/dist
+    networks:
+      - valisnet
+    depends_on:
+      - valis
+
+networks:
+  valisnet:
+
+volumes:
+  zora-static:
+
+
