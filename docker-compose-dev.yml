@@ -19,7 +19,7 @@ services:
       - VALIS_DB_USER=${VALIS_DB_USER}
       - VALIS_DB_PORT=${VALIS_DB_PORT}
       - VALIS_DB_HOST=host.docker.internal
-      - VALIS_DB_PASS=${VALIS_DB_PASS}
+      - VALIS_DB_PASS=${VALIS_DB_PASS:-None}
     networks:
       - valisnet
 
