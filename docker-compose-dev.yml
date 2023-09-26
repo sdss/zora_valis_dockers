@@ -11,8 +11,15 @@ services:
       - 8000:8000
     volumes:
       - ${VALIS_SOCKET_DIR:-/tmp/valis}:/tmp/valis # (host_socket_dir:container_socket_dir)
-      - ${SAS_BASE_DIR}:/root/sas
-      - ./valis/valis:/tmp
+      - ${SAS_BASE_DIR}:/root/sas  # mount the local SDSS SAS
+      - ./valis/valis:/tmp  # mount the code dir
+      - $HOME/.pgpass:/root/.pgpass  # mount the local .pgpass file
+    environment:
+      - VALIS_DB_REMOTE=True
+      - VALIS_DB_USER=${VALIS_DB_USER}
+      - VALIS_DB_PORT=${VALIS_DB_PORT}
+      - VALIS_DB_HOST=host.docker.internal
+      - VALIS_DB_PASS=${VALIS_DB_PASS}
     networks:
       - valisnet
 
@@ -25,8 +32,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./zora/zora:/app
-      - zora_node_modules:/app/node_modules
+      - ./zora/zora:/app  # mount the code dir
+      - zora_node_modules:/app/node_modules  # mount the node modules for consistent builds
     networks:
       - valisnet
     depends_on:
