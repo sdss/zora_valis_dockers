@@ -130,8 +130,8 @@ In a third terminal, create an SSH tunnel to the remote `sdss5db` db following t
 
 An alternative to the above step 3 is to use the valis configuration file. Create or modify the `~/.config/sdss/valis.yaml` with the following config variables
 ```
-valis_allow_origin: ['http://localhost:3000']
-valis_db_remote: true
-valis_db_port: [port]
-valis_db_user: [unid]
+allow_origin: ['http://localhost:3000']
+db_remote: true
+db_port: [port]
+db_user: [unid]
 ```
