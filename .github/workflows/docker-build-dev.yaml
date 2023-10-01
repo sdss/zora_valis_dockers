@@ -18,6 +18,9 @@ jobs:
     - name: Log in GitHub Container Registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
 
+    - name: Checkout Repos
+      run: ./get_repos.sh
+
     - name: Build and Push Docker Images
       run: |
         docker-compose -f docker-compose-dev.yml build
