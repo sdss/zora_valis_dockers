@@ -1,0 +1,29 @@
+name: Build and Push Docker Dev Images
+
+on:
+  push:
+    branches:
+      - main # Change to the appropriate branch name
+    tags:
+      - '*'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Log in GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+
+    - name: Build and Push Docker Images
+      run: |
+        docker-compose -f docker-compose-dev.yaml build
+        docker-compose push
+
+    - name: Cleanup
+      run: |
+        docker-compose down --rmi local
+        docker logout ghcr.io
