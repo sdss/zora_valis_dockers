@@ -1,10 +1,10 @@
 version: '3.9'
 services:
   nginx:
-    #image: nginx-valis:latest
     container_name: nginx-valis
     build:
       context: nginx
+    image: nginx-valis:latest
     volumes:
       - ${VALIS_SOCKET_DIR:-/tmp/valis}:/tmp/valis # (host_socket_dir:upstream_socket_location)
       - zora-static:/usr/share/nginx/html
@@ -17,10 +17,10 @@ services:
       - zora
 
   valis:
+    container_name: valis
     build:
       context: valis
-    #image: valis:latest
-    container_name: valis
+    image: valis:latest
     ports:
       - 8000:8000
     volumes:
@@ -30,10 +30,10 @@ services:
       - valisnet
 
   zora:
+    container_name: zora
     build:
       context: zora
-    #image: zora:latest
-    container_name: zora
+    image: zora:latest
     volumes:
       - zora-static:/app/dist
     networks:
