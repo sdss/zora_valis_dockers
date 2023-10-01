@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main # Change to the appropriate branch name
-    tags:
-      - '*'
 
 jobs:
   build-and-push:
@@ -14,6 +12,12 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
     - name: Log in GitHub Container Registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
@@ -24,7 +28,8 @@ jobs:
     - name: Build and Push Docker Images
       run: |
         docker-compose -f docker-compose-dev.yml build
-        docker-compose push
+        docker-compose push ghcr.io/sdss/valis-dev:latest
+        docker-compose push ghcr.io/sdss/zora-dev:latest
 
     - name: Cleanup
       run: |
