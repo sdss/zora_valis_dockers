@@ -20,7 +20,7 @@ jobs:
 
     - name: Build and Push Docker Images
       run: |
-        docker-compose -f docker-compose-dev.yaml build
+        docker-compose -f docker-compose-dev.yml build
         docker-compose push
 
     - name: Cleanup
