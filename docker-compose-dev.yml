@@ -10,8 +10,8 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ${VALIS_SOCKET_DIR:-/tmp/valis}:/tmp/valis # (host_socket_dir:container_socket_dir)
-      - ${SAS_BASE_DIR}:/root/sas  # mount the local SDSS SAS
+      - ${VALIS_SOCKET_DIR:-/tmp/valis}/:/tmp/valis # (host_socket_dir:container_socket_dir)
+      - ${SAS_BASE_DIR}/:/root/sas  # mount the local SDSS SAS
       - ./valis/valis:/tmp  # mount the code dir
       - $HOME/.pgpass:/root/.pgpass  # mount the local .pgpass file
     environment:

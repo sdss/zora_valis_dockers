@@ -132,3 +132,7 @@ dist
 # ignore code directories
 zora/zora
 valis/valis
+package-lock.json
+package.json
+package.json
+env_vars.sh
