@@ -1,6 +1,9 @@
 # Use an official Node.js runtime as the base image
 FROM node:18-slim as dev-stage
 
+# Set a label
+LABEL org.opencontainers.image.source https://github.com/sdss/zora_valis_dockers
+
 # Set the working directory in the container
 WORKDIR /app
 

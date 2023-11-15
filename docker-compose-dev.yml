@@ -5,7 +5,7 @@ services:
     build:
       context: valis
       dockerfile: Dockerfile.dev
-    image: valis-dev:latest
+    image: ghrc.io/sdss/valis/valis-dev:latest
     container_name: valis
     ports:
       - 8000:8000
@@ -27,7 +27,7 @@ services:
     build:
       context: zora
       dockerfile: Dockerfile.dev
-    image: zora-dev:latest
+    image: ghrc.io/sdss/zora/zora-dev:latest
     container_name: zora
     ports:
       - 3000:3000
