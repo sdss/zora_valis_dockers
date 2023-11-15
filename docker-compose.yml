@@ -24,8 +24,8 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ${VALIS_SOCKET_DIR:-/tmp/valis}:/tmp/valis # (host_socket_dir:container_socket_dir)
-      - ${SAS_BASE_DIR}:/root/sas
+      - ${VALIS_SOCKET_DIR:-/tmp/valis}/:/tmp/valis # (host_socket_dir:container_socket_dir)
+      - ${SAS_BASE_DIR}/:/root/sas
     networks:
       - valisnet
 
