@@ -45,8 +45,8 @@ jobs:
     - name: Build and Push Docker Images
       run: |
         docker-compose -f docker-compose-dev.yml build
-        docker-compose push ghcr.io/sdss/valis/valis-dev:latest
-        docker-compose push ghcr.io/sdss/zora/zora-dev:latest
+        docker-compose push ghcr.io/sdss/valis-dev:latest
+        docker-compose push ghcr.io/sdss/zora-dev:latest
 
     - name: Cleanup
       run: |
