@@ -14,12 +14,11 @@ RUN apt-get update && \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Poetry
-RUN pip install poetry
-RUN poetry config virtualenvs.create false
-
-# Install the project dependencies
-RUN poetry install --no-root
+# Install poetry and project dependencies
+RUN pip install poetry && \
+    poetry config virtualenvs.create false && \
+    poetry install --no-root && \
+    rm -rf ~/.cache
 
 # Stage 2: Development stage for the project
 FROM dep-stage as dev-stage
@@ -29,10 +28,12 @@ COPY ./valis ./
 RUN poetry install --only main
 
 # setting environment variables
+# these can be manually overridden
 ENV MODULE_NAME="valis.wsgi"
 ENV VALIS_SOCKET_DIR='/tmp/valis'
 ENV VALIS_LOGS_DIR='/tmp'
 ENV VALIS_ALLOW_ORIGIN="http://localhost:3000"
+ENV VALIS_DB_REMOTE=True
 
 # Stage 3: Build stage (inherits from dev-stage)
 FROM dev-stage as build-stage
@@ -45,4 +46,3 @@ EXPOSE 8000
 
 # Start the FastAPI app with hot-reloading for development
 CMD ["uvicorn", "valis.wsgi:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
-
