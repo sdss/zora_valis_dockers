@@ -19,3 +19,10 @@ COPY .env.docker .env.production
 # Build the Vue.js app
 RUN npm run build
 
+# Set a label
+LABEL org.opencontainers.image.source https://github.com/sdss/zora
+LABEL org.opencontainers.image.description "zora production image"
+
+# Copy the files to mountable directory
+RUN mkdir -p /app/html
+CMD ["cp", "-r", "/app/dist/.", "/app/html"]
